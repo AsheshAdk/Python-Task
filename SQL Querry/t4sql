@@ -1,0 +1,11 @@
+-- 4.List the top 3 provider_group_id values with the highest total negotiated_rate for 
+-- procedures where negotiation_type is negotiated, including the tin from 
+-- the provider table, ordered by total rate descending.
+Explain analyze select  n.provider_group_id,
+sum(n.negotiated_rate) as total_nego_rate,p.tin	
+from provider_table p
+join in_network_data n on p.provider_group_id=n.provider_group_id
+where n.negotiated_type = 'negotiated'
+group by n.provider_group_id,p.tin
+order by total_nego_rate desc
+limit 3;

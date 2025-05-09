@@ -1,0 +1,8 @@
+--1.Retrieve the provider_group_id, billing_code, and negotiated_rate for all 
+--procedures in the rate table where the billing_code_type is 'CPT' and the 
+--provider has a matching tin in the provider table LIMIT 20.
+select n.provider_group_id,n.billing_code,n.negotiated_rate,p.tin
+from in_network_data n
+join provider_table p on p.provider_group_id=n.provider_group_id
+where billing_code_type = 'CPT'
+limit 20;
