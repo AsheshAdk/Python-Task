@@ -1,0 +1,13 @@
+--3.Identify provider_group_id values with more than 10 records
+ --in the rate table where the billing_code is '99213',
+ --and show the corresponding npi from the provider table.
+ Explain analyze with cte as (
+ select provider_group_id
+	  from in_network_data
+	  --where billing_code = '99213'
+	  group by provider_group_id
+	 --having count(*)>2
+)
+select c.provider_group_id,p.tin
+from cte c  join provider_table p on c.provider_group_id = p.provider_group_id
+limit 100;

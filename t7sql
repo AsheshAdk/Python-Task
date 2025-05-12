@@ -1,0 +1,9 @@
+--7.rank & dense rank
+Explain analyze with cte as(
+select provider_group_id,
+max(negotiated_rate) over(partition by provider_group_id) max_1,
+rank() over (partition by provider_group_id order by negotiated_rate) as rank
+from in_network_data
+limit 20)
+select *,row_number() over(partition by max_1 order by max_1 desc)
+from cte;

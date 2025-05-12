@@ -1,0 +1,10 @@
+--5.Calculate the average negotiated_rate for each provider_group_id 
+--in the rate table where the service_code contains 11, 
+--and include the tin from the provider table limit 10.
+Explain analyze select n.provider_group_id,p.tin,avg(negotiated_rate) as avg_nego,
+unnest(n.service_code) as serv_code
+from  provider_table p
+join in_network_data n  on p.provider_group_id=n.provider_group_id
+where n.service_code::text like '%11%'
+group by n.provider_group_id,p.tin,n.service_code
+limit 10;

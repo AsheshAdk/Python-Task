@@ -1,0 +1,16 @@
+--6. How can you use a CTE to calculate the average negotiation rate 
+--for each provider group and then join this with the provider 
+--table to list providers (by NPI and TIN) in groups where the average 
+--negotiation rate exceeds 250?
+--Hint: Use a CTE to compute the average negotiated rate per provider_group_id. 
+--Then, join the CTE with provider_table to get provider details, filtering 
+--for groups with an average rate above 250.
+Explain analyze with cte as(
+select avg(n.negotiated_rate) as nego_rate,n.provider_group_id,p.npi,p.tin
+from provider_table p
+join in_network_data n on p.provider_group_id = n.provider_group_id
+group by n.provider_group_id,p.npi,p.tin
+having avg(n.negotiated_rate)>250
+limit 500
+)
+select *from cte
