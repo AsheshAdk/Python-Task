@@ -1,0 +1,11 @@
+--2.List all distinct provider_group_id values from the rate table that have 
+--a billing_class of professional and include the corresponding npi
+--from the provider table.
+select * from in_network_data limit 20;
+select * from provider_table limit 20;
+
+Explain select distinct n.provider_group_id,n.billing_class,p.npi
+from provider_table p
+join in_network_data n on p.provider_group_id=n.provider_group_id
+where n.billing_class = 'professional'
+limit 20;
